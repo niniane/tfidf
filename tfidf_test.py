@@ -11,7 +11,7 @@ import unittest
 
 DEFAULT_IDF_UNITTEST = 1.0
 
-def get_exected_idf(num_docs_total, num_docs_term):
+def get_expected_idf(num_docs_total, num_docs_term):
    return math.log(float(1 + num_docs_total) / (1 + num_docs_term))
 
 class TfIdfTest(unittest.TestCase):
@@ -48,18 +48,18 @@ class TfIdfTest(unittest.TestCase):
                            DEFAULT_IDF = DEFAULT_IDF_UNITTEST)
 
     self.assertEquals(DEFAULT_IDF_UNITTEST, my_tfidf.get_idf("water"))
-    self.assertAlmostEquals(get_exected_idf(my_tfidf.get_num_docs(), 1),
+    self.assertAlmostEquals(get_expected_idf(my_tfidf.get_num_docs(), 1),
       my_tfidf.get_idf("moon"))
-    self.assertAlmostEquals(get_exected_idf(my_tfidf.get_num_docs(), 5),
+    self.assertAlmostEquals(get_expected_idf(my_tfidf.get_num_docs(), 5),
       my_tfidf.get_idf("said"))
 
     my_tfidf.add_input_document("water, moon")
 
-    self.assertAlmostEquals(get_exected_idf(my_tfidf.get_num_docs(), 1),
+    self.assertAlmostEquals(get_expected_idf(my_tfidf.get_num_docs(), 1),
       my_tfidf.get_idf("water"))
-    self.assertAlmostEquals(get_exected_idf(my_tfidf.get_num_docs(), 2),
+    self.assertAlmostEquals(get_expected_idf(my_tfidf.get_num_docs(), 2),
       my_tfidf.get_idf("moon"))
-    self.assertAlmostEquals(get_exected_idf(my_tfidf.get_num_docs(), 5),
+    self.assertAlmostEquals(get_expected_idf(my_tfidf.get_num_docs(), 5),
       my_tfidf.get_idf("said"))
 
   def testNoCorpusFiles(self):
@@ -73,9 +73,9 @@ class TfIdfTest(unittest.TestCase):
     my_tfidf.add_input_document("moon said hello")
 
     self.assertEquals(DEFAULT_IDF_UNITTEST, my_tfidf.get_idf("water"))
-    self.assertAlmostEquals(get_exected_idf(my_tfidf.get_num_docs(), 1),
+    self.assertAlmostEquals(get_expected_idf(my_tfidf.get_num_docs(), 1),
       my_tfidf.get_idf("said"))
-    self.assertAlmostEquals(get_exected_idf(my_tfidf.get_num_docs(), 2),
+    self.assertAlmostEquals(get_expected_idf(my_tfidf.get_num_docs(), 2),
       my_tfidf.get_idf("moon"))
 
   def testStopwordFile(self):
@@ -84,16 +84,16 @@ class TfIdfTest(unittest.TestCase):
 
     self.assertEquals(DEFAULT_IDF_UNITTEST, my_tfidf.get_idf("water"))
     self.assertEquals(0, my_tfidf.get_idf("moon"))
-    self.assertAlmostEquals(get_exected_idf(my_tfidf.get_num_docs(), 5),
+    self.assertAlmostEquals(get_expected_idf(my_tfidf.get_num_docs(), 5),
       my_tfidf.get_idf("said"))
 
     my_tfidf.add_input_document("moon")
     my_tfidf.add_input_document("moon and water")
 
-    self.assertAlmostEquals(get_exected_idf(my_tfidf.get_num_docs(), 1),
+    self.assertAlmostEquals(get_expected_idf(my_tfidf.get_num_docs(), 1),
                             my_tfidf.get_idf("water"))
     self.assertEquals(0, my_tfidf.get_idf("moon"))
-    self.assertAlmostEquals(get_exected_idf(my_tfidf.get_num_docs(), 5),
+    self.assertAlmostEquals(get_expected_idf(my_tfidf.get_num_docs(), 5),
       my_tfidf.get_idf("said"))
 
 
